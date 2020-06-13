@@ -1,0 +1,102 @@
+﻿信息系统与数据库技术练习14答题卡
+
+班级：     信管1班
+姓名：     邱梓龙
+学号：     20190307128
+
+注：请将答案放置在序号下方。*/
+
+（一）
+1.
+use PROJECT
+
+2.
+go
+create proc p_ep1
+as
+select Employee.Did,EP.Eid,Ename,Esex,Project.Pid,Pname,Wages
+from Employee join Project join EP
+on Project.Pid=EP.Pid
+on Employee.Eid=EP.Eid
+
+3.
+go
+exec p_ep1
+
+4.
+go
+create proc p_ep2
+@WorkDate varchar(20),@Did varchar(20)
+as
+select Employee.Did,WorkDate,EP.Eid,Ename ,Project.Pid,Pname,Wages
+from Employee join Project join EP
+on Project.Pid=EP.Pid
+on Employee.Eid=EP.Eid
+where WorkDate=@WorkDate and Did=@Did
+
+5.
+go
+exec p_ep2 @WorkDate='1990-07-01',@Did='D001'
+
+6.
+go
+create proc p_ep3
+@Dname varchar(20)='财务部'
+as
+select Department.Did,Dname,Employee.Eid,Ename,Esex,WorkDate
+from Department join Employee
+on Department.Did=Employee.Did
+where Dname=@Dname
+
+7.
+exec p_ep3
+
+8.
+exec p_ep3 @Dname='人事部'
+
+9.
+go
+create proc p_ep4
+@BasePay int
+as
+select*
+from Employee
+where BasePay>@BasePay
+
+10.
+go
+exec p_ep4 @BasePay =8000
+
+11.
+go
+create proc p_emp
+@Ename varchar (10)
+as
+select*
+from Employee
+where Ename like'%'+@Ename+'%'
+
+12.
+exec p_emp @Ename='丽'
+
+13.
+exec sp_helptext p_emp
+
+14.
+go
+alter proc p_ep3
+@Dname varchar(20)='财务部'
+wlth ENCRYPTION
+as
+select Department.Did,Dname,Employee.Eid,Ename,Esex,WorkDate
+from Department join Employee 
+on Department.Did=Employee.Did
+where Dname =@Dname
+
+15.
+go
+exec sp_helptext p_ep3
+
+16.
+go
+drop proc p_ep3
